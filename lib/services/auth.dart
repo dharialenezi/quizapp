@@ -13,13 +13,13 @@ class AuthService {
   Stream<FirebaseUser> get user => _auth.onAuthStateChanged;
 
   Future<FirebaseUser> anonLogin() async {
-    FirebaseUser user = await _auth.signInAnonymously();
-    updateUserData(user);
+    AuthResult user = await _auth.signInAnonymously();
+    updateUserData(user.user);
 
-    return user;
+    return user.user;
   }
 
-  Future<FirebaseUser> googleSignIn() async {
+   Future<FirebaseUser> googleSignIn() async {
     try {
       GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
       GoogleSignInAuthentication googleAuth =
@@ -30,11 +30,10 @@ class AuthService {
         idToken: googleAuth.idToken,
       );
 
-      FirebaseUser user = await _auth.signInWithCredential(credential);
+      AuthResult user = await _auth.signInWithCredential(credential);
+      updateUserData(user.user);
 
-      updateUserData(user);
-
-      return user;
+      return user.user;
     } catch (error) {
       print(error);
       return null;

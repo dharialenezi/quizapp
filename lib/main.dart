@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -5,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/provider.dart';
 import 'services/services.dart';
-import 'dart:async';
 import 'screens/screens.dart';
+
+
 
 void main() => runApp(MyApp());
 
@@ -15,7 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        StreamProvider<FirebaseUser>.value(stream: AuthService().user),
+        StreamProvider<FirebaseUser>.value(value: AuthService().user),
       ],
       child: MaterialApp(
         navigatorObservers: [
@@ -25,9 +28,9 @@ class MyApp extends StatelessWidget {
         ],
         routes: {
           '/': (context) => LoginScreen(),
-          // '/topics': (context) => TopicsScreen(),
+          '/topics': (context) => TopicsScreen(),
           '/profile': (context) => ProfileScreen(),
-          // '/about': (context) => AboutScreen(),
+          '/about': (context) => AboutScreen(),
         },
         theme: ThemeData(
           fontFamily: 'Nunito',
